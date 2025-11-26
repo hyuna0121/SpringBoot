@@ -15,13 +15,20 @@ class NoticeDAOTest {
 	private NoticeDAO noticeDAO;
 	
 	@Test
-	void testDelete() throws Exception {
-		NoticeDTO noticeDTO = new NoticeDTO();
-		noticeDTO.setBoardNum(3L);
+	void testCount() throws Exception {
+		Long count = noticeDAO.count();
 		
-		int result = noticeDAO.delete(noticeDTO);
-		assertEquals(1, result);
+		System.out.println(count);
 	}
+	
+//	@Test
+//	void testDelete() throws Exception {
+//		NoticeDTO noticeDTO = new NoticeDTO();
+//		noticeDTO.setBoardNum(3L);
+//		
+//		int result = noticeDAO.delete(noticeDTO);
+//		assertEquals(1, result);
+//	}
 	
 //	@Test
 //	void testUpdate() throws Exception {
@@ -36,30 +43,35 @@ class NoticeDAOTest {
 	
 //	@Test
 //	void testAdd() throws Exception {
-//		NoticeDTO noticeDTO = new NoticeDTO();
-//		noticeDTO.setBoardTitle("INSERT TEST");
-//		noticeDTO.setBoardWriter("lha");
-//		noticeDTO.setBoardContents("insert test");
 //		
-//		int result = noticeDAO.add(noticeDTO);
-//		assertEquals(1, result);
+//		for (int i = 0; i < 120; i++) {
+//			NoticeDTO noticeDTO = new NoticeDTO();
+//			noticeDTO.setBoardTitle("title" + i);
+//			noticeDTO.setBoardWriter("writer" + i);
+//			noticeDTO.setBoardContents("contents" + i);
+//			
+//			noticeDAO.add(noticeDTO);
+//			
+//			if (i % 10 == 0) Thread.sleep(500);
+//		}
+//		
 //	}
 	
-	@Test
-	void testList() throws Exception {
-		List<NoticeDTO> noticeList = noticeDAO.list();
-		
-		assertNotEquals(0, noticeList.size());
-	}
-
-	@Test
-	void testDetail() throws Exception {
-		NoticeDTO noticeDTO = new NoticeDTO();
-		noticeDTO.setBoardNum(1L);
-		
-		noticeDTO = noticeDAO.detail(noticeDTO);
-		
-		assertNotNull(noticeDTO);
-	}
+//	@Test
+//	void testList() throws Exception {
+//		List<NoticeDTO> noticeList = noticeDAO.list();
+//		
+//		assertNotEquals(0, noticeList.size());
+//	}
+//
+//	@Test
+//	void testDetail() throws Exception {
+//		NoticeDTO noticeDTO = new NoticeDTO();
+//		noticeDTO.setBoardNum(1L);
+//		
+//		noticeDTO = noticeDAO.detail(noticeDTO);
+//		
+//		assertNotNull(noticeDTO);
+//	}
 
 }

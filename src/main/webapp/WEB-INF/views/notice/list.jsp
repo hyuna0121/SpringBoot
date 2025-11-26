@@ -7,14 +7,7 @@
 	<meta charset="UTF-8">
 	<title>Home</title>
 	
-	<!-- Custom fonts for this template-->
-    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-        
-    <!-- Custom styles for this template-->
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+	<c:import url="/WEB-INF/views/template/head.jsp"></c:import>
 </head>
 <body id="page-top">
 
@@ -39,16 +32,56 @@
                 
                 	<!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Notice List</h1>
+                        <h1 class="h3 mb-0 text-gray-800">공지사항</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div>
                     
                     <!-- Content Row -->
-                    <div class="row">
+                    <div class="row justify-content-center">
                     
                     	<!-- 생성한 contents 작성 -->
-                    	
+                    	<table class="table col-sm-8 table-hover mt-5">
+						    <thead class="thead-dark">
+						        <tr>
+						            <th scope="col">Num</th>
+						            <th scope="col">Title</th>
+						            <th scope="col">Writer</th>
+						            <th scope="col">Date</th>
+						            <th scope="col">Hit</th>
+						        </tr>
+						    </thead>
+						  	<tbody>
+							    <c:forEach items="${noticeList}" var="notice">
+							        <tr>
+							            <th scope="row">${notice.boardNum}</th>
+							            <td><a href="/notice/detail?boardNum=${notice.boardNum}">${notice.boardTitle}</a></td>
+							            <td>${notice.boardWriter}</td>
+							            <td>${notice.boardDate}</td>
+							            <td>${notice.boardHit}</td>
+							         </tr>
+							    </c:forEach>
+						    </tbody>
+						  </table>
+						  
+                    </div>
+                    <div class="row justify-content-center">
+					  <nav aria-label="Page navigation example">
+						  <ul class="pagination">
+						    <li class="page-item">
+						      <a class="page-link" href="./list?page=${pager.begin - 1}" aria-label="Previous">
+						        <span aria-hidden="true">&laquo;</span>
+						      </a>
+						    </li>
+						    <c:forEach begin="${pager.begin}" end="${pager.end}" var="i">
+							    <li class="page-item"><a class="page-link" href="./list?page=${i}">${i}</a></li>
+					  		</c:forEach>
+						      <a class="page-link" href="./list?page=${pager.end + 1}" aria-label="Next">
+						        <span aria-hidden="true">&raquo;</span>
+						      </a>
+						    </li>
+						  </ul>
+						</nav> 
                     </div>
                     
                 </div>
@@ -71,25 +104,6 @@
         
 	</div>
 	
-	<a href="#page-top"></a>
-	
-	<div class="modal fade"></div>
-	
-	<!-- Bootstrap core JavaScript-->
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="/js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="/js/demo/chart-area-demo.js"></script>
-    <script src="/js/demo/chart-pie-demo.js"></script>
+	<c:import url="/WEB-INF/views/template/foot.jsp"></c:import>
 </body>
 </html>
