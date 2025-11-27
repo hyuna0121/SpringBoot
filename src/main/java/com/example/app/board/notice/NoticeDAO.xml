@@ -16,6 +16,7 @@
 			WHERE board_writer LIKE CONCAT('%',#{search},'%')
 		</if>
 	</sql>
+	
 	<select id="count" parameterType="Pager" resultType="Long">
 		SELECT COUNT(board_num) FROM notice
 		<include refid="search"></include>

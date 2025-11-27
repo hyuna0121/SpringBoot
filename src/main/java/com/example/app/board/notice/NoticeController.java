@@ -41,11 +41,12 @@ public class NoticeController {
 		
 		String msg = "등록 실패";
 		String path = "./list";
-		model.addAttribute("path", path);
 		if (result > 0) {
 			msg = "등록 성공";
-			model.addAttribute("msg", msg);
 		}
+		
+		model.addAttribute("path", path);
+		model.addAttribute("msg", msg);
 		
 		return "/commons/result";
 //		return "redirect:./list"

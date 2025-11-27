@@ -45,7 +45,7 @@
                     	<!-- 생성한 contents 작성 -->
 						<div class="card shadow mb-5">
 							<div class="card-header  py-3">
-                    	        <h4 class="m-0 font-weight-bold text-primary">Add Notice</h4>
+                    	        <h4 class="m-0 font-weight-bold text-primary">Add QnA</h4>
 	                        </div>
 	                        <div class="card-body">
 								<form action="./add" method="post">

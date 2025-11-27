@@ -13,8 +13,12 @@ public class QnaService {
 	@Autowired
 	private QnaDAO qnaDAO;
 	
+	public QnaDTO detail(QnaDTO qnaDTO) throws Exception {
+		return qnaDAO.detail(qnaDTO);
+	}
+	
 	public List<QnaDTO> list(Pager pager) throws Exception {
-		Long totalCount = qnaDAO.count();
+		Long totalCount = qnaDAO.count(pager);
 		
 		pager.paging(totalCount);
 		
@@ -22,7 +26,10 @@ public class QnaService {
 	}
 	
 	public int add(QnaDTO qnaDTO) throws Exception {
-		return qnaDAO.add(qnaDTO);
+		qnaDAO.add(qnaDTO);
+		int result = qnaDAO.refUpdate(qnaDTO);
+		
+		return result;
 	}
 	
 }
