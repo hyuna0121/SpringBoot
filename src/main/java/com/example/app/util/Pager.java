@@ -8,11 +8,16 @@ import lombok.Setter;
 public class Pager {
 	
 	private Long page; // primitive type이 아니므로 초기값 : null
+	
 	private Long perPage; // 한 페이지 당 보여줄 글의 개수
 	private Long perBlock; // 한 블럭 당 출력할 번호의 개수
+	
 	private Long startNum;
 	private Long begin;
 	private Long end;
+	
+	private String kind;
+	private String search;
 	
 	public Long getPage() {
 		if (this.page == null || this.page < 1) this.page = 1L;
@@ -42,9 +47,13 @@ public class Pager {
 	
 	// Paging 계산
 	public void paging(Long totalCount) throws Exception {
+		if (totalCount < 1) totalCount = 1L;
+		
 		// 총 글의 갯수로 총 페이지 구하기
-		Long totalPage = totalCount / this.getPerPage();
-		if (totalCount % this.perPage != 0) totalPage++;
+		Long totalPage = (long) Math.ceil((double) totalCount / this.getPerPage());
+		
+//		Long totalPage = totalCount / this.getPerPage();
+//		if (totalCount % this.perPage != 0) totalPage++;
 		
 		// page가 totalPage보다 큰 경우
 		if (this.getPage() > totalPage) this.page = totalPage;

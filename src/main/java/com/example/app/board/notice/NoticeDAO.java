@@ -9,7 +9,7 @@ import com.example.app.util.Pager;
 @Mapper
 public interface NoticeDAO {
 	
-	public Long count() throws Exception;
+	public Long count(Pager pager) throws Exception;
 
 	public NoticeDTO detail(NoticeDTO noticeDTO) throws Exception;
 	

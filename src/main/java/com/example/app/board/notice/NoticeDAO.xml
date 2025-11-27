@@ -4,16 +4,31 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.app.board.notice.NoticeDAO"> 
-	<select id="count" resultType="Long">
+	<!-- 반복되는 쿼리를 모아놓은 것 -->
+	<sql id="search">
+		<if test="kind == 'k1'">
+			WHERE board_title LIKE CONCAT('%',#{search},'%')
+		</if>
+		<if test="kind == 'k2'">
+			WHERE board_contents LIKE CONCAT('%',#{search},'%')
+		</if>
+		<if test="kind == 'k3'">
+			WHERE board_writer LIKE CONCAT('%',#{search},'%')
+		</if>
+	</sql>
+	<select id="count" parameterType="Pager" resultType="Long">
 		SELECT COUNT(board_num) FROM notice
+		<include refid="search"></include>
 	</select>
 	
 	<select id="detail" parameterType="NoticeDTO" resultType="NoticeDTO">
 		SELECT * FROM notice WHERE board_num=#{boardNum}
 	</select>
 	
-	<select id="list" parameterType="com.example.app.util.Pager" resultType="NoticeDTO">
-		SELECT * FROM notice ORDER BY board_num DESC LIMIT #{startNum}, #{perPage}
+	<select id="list" parameterType="Pager" resultType="NoticeDTO">
+		SELECT * FROM notice 
+		<include refid="search"></include>
+		ORDER BY board_num DESC LIMIT #{startNum}, #{perPage}
 	</select>
 	
 	<insert id="add" parameterType="NoticeDTO">

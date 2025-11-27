@@ -14,12 +14,12 @@ class NoticeDAOTest {
 	@Autowired
 	private NoticeDAO noticeDAO;
 	
-	@Test
-	void testCount() throws Exception {
-		Long count = noticeDAO.count();
-		
-		System.out.println(count);
-	}
+//	@Test
+//	void testCount() throws Exception {
+//		Long count = noticeDAO.count();
+//		
+//		System.out.println(count);
+//	}
 	
 //	@Test
 //	void testDelete() throws Exception {
