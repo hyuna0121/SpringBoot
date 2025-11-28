@@ -10,4 +10,6 @@ public interface QnaDAO extends BoardDAO  {
 	
 	public int refUpdate(BoardDTO boardDTO) throws Exception;
 	
+	public int stepUpdate(QnaDTO qnaDTO) throws Exception;
+	
 }

@@ -39,12 +39,28 @@ public class QnaService implements BoardService {
 
 	@Override
 	public int update(BoardDTO boardDTO) throws Exception {
-		return 0;
+		return qnaDAO.update(boardDTO);
 	}
 
 	@Override
 	public int delete(BoardDTO boardDTO) throws Exception {
-		return 0;
+		return qnaDAO.delete(boardDTO);
+	}
+	
+	public int reply(QnaDTO qnaDTO) throws Exception {
+		// 1. 부모글의 정보 조회(ref, step, depth)
+		QnaDTO parent = (QnaDTO) qnaDAO.detail(qnaDTO);
+		
+		// 2. 부모글의 정보를 이용해서 step을 업데이트
+		qnaDAO.stepUpdate(parent);
+		
+		// 3. 부모글의 정보를 이용해서 나머지 ref, step, depth를 세팅하고
+		qnaDTO.setBoardRef(parent.getBoardRef());
+		qnaDTO.setBoardStep(parent.getBoardStep() + 1);
+		qnaDTO.setBoardDepth(parent.getBoardDepth() + 1);
+		
+		// 4. insert
+		return qnaDAO.add(qnaDTO);
 	}
 	
 }

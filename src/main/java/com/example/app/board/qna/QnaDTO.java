@@ -11,8 +11,8 @@ import lombok.ToString;
 @ToString
 public class QnaDTO extends BoardDTO {
 
-	private Long boardRef;
-	private Long boardStep;
-	private Long boardDepth;
+	private long boardRef;
+	private long boardStep;
+	private long boardDepth;
 	
 }

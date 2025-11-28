@@ -22,7 +22,7 @@
 	<select id="list" parameterType="Pager" resultType="QnaDTO">
 		SELECT * FROM qna 
 		<include refid="search"></include>
-		ORDER BY board_num DESC LIMIT #{startNum}, #{perPage}
+		ORDER BY board_ref DESC, board_step ASC LIMIT #{startNum}, #{perPage}
 	</select>
 	
 	<select id="count" parameterType="Pager" resultType="Long">
@@ -31,11 +31,23 @@
 	</select>
 	
 	<insert id="add" parameterType="QnaDTO" useGeneratedKeys="true" keyProperty="boardNum"> <!-- AI값을 board_num에 넣어줌 -->
-		INSERT INTO qna VALUES(null, #{boardTitle}, #{boardWriter}, #{boardContents}, now(), 0, 0, 0, 0)
+		INSERT INTO qna VALUES(null, #{boardTitle}, #{boardWriter}, #{boardContents}, now(), 0, #{boardRef}, #{boardStep}, #{boardDepth})
 	</insert>
 	
 	<!-- 처음 파라미터 타입 선언을 QnaDTO로 했다면 원래 참조하는 객체의 타입과 일치하기 때문에 에러가 나지 않음 -->
 	<update id="refUpdate" parameterType="QnaDTO">
 		UPDATE qna SET board_ref=#{boardNum} WHERE board_num=#{boardNum}
 	</update>
+	
+	<update id="stepUpdate" parameterType="QnaDTO">
+		UPDATE qna SET board_step=board_step+1 WHERE board_ref=#{boardRef} AND board_step>#{boardStep}
+	</update>
+	
+	<update id="update" parameterType="QnaDTO">
+		UPDATE qna SET board_title=#{boardTitle}, board_contents=#{boardContents} WHERE board_num=#{boardNum}
+	</update>
+	
+	<delete id="delete" parameterType="QnaDTO">
+		DELETE FROM qna WHERE board_num=#{boardNum}
+	</delete>
 </mapper>

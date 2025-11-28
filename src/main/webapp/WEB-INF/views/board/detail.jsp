@@ -32,7 +32,7 @@
                 
                 	<!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Detail</h1>
+                        <h1 class="h3 mb-0 text-gray-800">${category} Detail</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div>
@@ -45,14 +45,17 @@
 	                    	<!-- 생성한 contents 작성 -->
 	                    	<div class="card shadow mb-4">
 	                            <div class="card-header py-3">
-	                                <h4 class="m-0 font-weight-bold text-primary">${notice.boardTitle}</h4>
-		                            <div class="d-flex justify-content-end">${notice.boardWriter} | ${notice.boardDate} | ${notice.boardHit}</div>
+	                                <h4 class="m-0 font-weight-bold text-primary">${dto.boardTitle}</h4>
+		                            <div class="d-flex justify-content-end">${dto.boardWriter} | ${dto.boardDate} | ${dto.boardHit}</div>
 	                            </div>
 	                            <div class="card-body" style="min-height: 300px;">
-	                            	${notice.boardContents}
+	                            	${dto.boardContents}
 	                            </div>
 	                            <div class="card-footer py-3 d-flex justify-content-between">
-	                            	<a href="./list" class="btn btn-secondary btn-icon-split" role="button">
+	                            	<c:if test="${category ne 'Notice'}">
+		                            	<a href="./reply?boardNum=${dto.boardNum}" class="btn btn-primary">답글</a>
+	                            	</c:if>
+     	                            <a href="./list" class="btn btn-secondary btn-icon-split" role="button">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-list"></i>
                                         </span>
@@ -60,19 +63,18 @@
                                     </a>
                                     
                                     <div>
-								        <a href="./update?boardNum=${notice.boardNum}" class="btn btn-primary btn-icon-split mx-1">
+								        <a href="./update?boardNum=${dto.boardNum}" class="btn btn-primary btn-icon-split mx-1">
 								            <span class="icon text-white-50">
 								                <i class="fas fa-edit"></i>
 								            </span>
 								            <span class="text">Edit</span>
 								        </a>
+								        
+								        <form action="./delete" method="post">
+								        	<input type="hidden" name="boardNum" value="${dto.boardNum}">
+								        	<button class="btn btn-danger" id="del">Delete</button>
+								        </form>
 								
-								        <a href="./delete?boardNum=${notice.boardNum}" class="btn btn-danger btn-icon-split" id="deleteBtn">
-								            <span class="icon text-white-50">
-								                <i class="fas fa-trash"></i>
-								            </span>
-								            <span class="text">Delete</span>
-								        </a>
 								    </div>
 	                            </div>
 	                        </div>
