@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.app.board.BoardDTO;
 import com.example.app.util.Pager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class NoticeController {
 	@GetMapping("list")
 	public void list(Pager pager, Model model) throws Exception {
 		
-		List<NoticeDTO> noticeList = noticeService.list(pager);
+		List<BoardDTO> noticeList = noticeService.list(pager);
 
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("pager", pager);
@@ -53,13 +54,13 @@ public class NoticeController {
 	}
 	
 	@GetMapping("detail")
-	public void detail(NoticeDTO noticeDTO, Model model) throws Exception {
-		noticeDTO = noticeService.detail(noticeDTO);
+	public void detail(BoardDTO boardDTO, Model model) throws Exception {
+		boardDTO = noticeService.detail(boardDTO);
 		
 		// null (조회 실패 시 처리) - 따로 추가하기
 		
-		if (noticeDTO.getBoardTitle() != null) {
-			model.addAttribute("notice", noticeDTO);
+		if (boardDTO.getBoardTitle() != null) {
+			model.addAttribute("notice", boardDTO);
 		}
 	}
 	

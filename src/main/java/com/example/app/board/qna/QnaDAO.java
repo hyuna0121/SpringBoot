@@ -1,21 +1,13 @@
 package com.example.app.board.qna;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.app.util.Pager;
+import com.example.app.board.BoardDAO;
+import com.example.app.board.BoardDTO;
 
 @Mapper
-public interface QnaDAO {
+public interface QnaDAO extends BoardDAO  {
 	
-	public QnaDTO detail(QnaDTO qnaDTO) throws Exception;
+	public int refUpdate(BoardDTO boardDTO) throws Exception;
 	
-	public List<QnaDTO> list(Pager pager) throws Exception;
-	
-	public Long count(Pager pager) throws Exception;
-	
-	public int add(QnaDTO qnaDTO) throws Exception;
-	
-	public int refUpdate(QnaDTO qnaDTO) throws Exception;
 }

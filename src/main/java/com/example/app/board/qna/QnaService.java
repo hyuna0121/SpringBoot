@@ -5,19 +5,23 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.app.board.BoardDTO;
+import com.example.app.board.BoardService;
 import com.example.app.util.Pager;
 
 @Service
-public class QnaService {
+public class QnaService implements BoardService {
 
 	@Autowired
 	private QnaDAO qnaDAO;
 	
-	public QnaDTO detail(QnaDTO qnaDTO) throws Exception {
-		return qnaDAO.detail(qnaDTO);
+	@Override
+	public BoardDTO detail(BoardDTO boardDTO) throws Exception {
+		return qnaDAO.detail(boardDTO);
 	}
 	
-	public List<QnaDTO> list(Pager pager) throws Exception {
+	@Override
+	public List<BoardDTO> list(Pager pager) throws Exception {
 		Long totalCount = qnaDAO.count(pager);
 		
 		pager.paging(totalCount);
@@ -25,11 +29,22 @@ public class QnaService {
 		return qnaDAO.list(pager);
 	}
 	
-	public int add(QnaDTO qnaDTO) throws Exception {
-		qnaDAO.add(qnaDTO);
-		int result = qnaDAO.refUpdate(qnaDTO);
+	@Override
+	public int add(BoardDTO boardDTO) throws Exception {
+		qnaDAO.add(boardDTO);
+		int result = qnaDAO.refUpdate(boardDTO);
 		
 		return result;
+	}
+
+	@Override
+	public int update(BoardDTO boardDTO) throws Exception {
+		return 0;
+	}
+
+	@Override
+	public int delete(BoardDTO boardDTO) throws Exception {
+		return 0;
 	}
 	
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.app.board.BoardDTO;
 import com.example.app.util.Pager;
 
 @Controller
@@ -19,17 +20,17 @@ public class QnaController {
 	private QnaService qnaService;
 	
 	@GetMapping("detail")
-	public void detail(QnaDTO qnaDTO, Model model) throws Exception {
-		qnaDTO = qnaService.detail(qnaDTO);
+	public void detail(BoardDTO boardDTO, Model model) throws Exception {
+		boardDTO = qnaService.detail(boardDTO);
 		
-		if (qnaDTO.getBoardTitle() != null) {
-			model.addAttribute("qna", qnaDTO);
+		if (boardDTO.getBoardTitle() != null) {
+			model.addAttribute("qna", boardDTO);
 		}
 	}
 
 	@GetMapping("list")
 	public void list(Pager pager, Model model) throws Exception {
-		List<QnaDTO> qnaList = qnaService.list(pager);
+		List<BoardDTO> qnaList = qnaService.list(pager);
 		
 		model.addAttribute("qnaList", qnaList);
 		model.addAttribute("pager", pager);
