@@ -72,7 +72,7 @@
 							    <c:forEach items="${productList}" var="product">
 							        <tr>
 							            <th scope="row">${product.productNum}</th>
-							            <td><a href="./detail?boardNum=${product.productNum}">${product.productName}</a></td>
+							            <td><a href="./detail?productNum=${product.productNum}">${product.productName}</a></td>
 							            <td>${product.productCategory}</td>
 							            <td>${product.productRate}</td>
 							            <td>${product.productSale}</td>
