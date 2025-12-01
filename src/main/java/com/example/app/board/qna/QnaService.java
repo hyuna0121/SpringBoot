@@ -1,11 +1,17 @@
 package com.example.app.board.qna;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.app.board.BoardDTO;
+import com.example.app.board.BoardFileDTO;
 import com.example.app.board.BoardService;
 import com.example.app.util.Pager;
 
@@ -14,6 +20,9 @@ public class QnaService implements BoardService {
 
 	@Autowired
 	private QnaDAO qnaDAO;
+	
+	@Value("${app.upload.qna}")
+	private String uploadPath;
 	
 	@Override
 	public BoardDTO detail(BoardDTO boardDTO) throws Exception {
@@ -30,9 +39,31 @@ public class QnaService implements BoardService {
 	}
 	
 	@Override
-	public int add(BoardDTO boardDTO) throws Exception {
-		qnaDAO.add(boardDTO);
-		int result = qnaDAO.refUpdate(boardDTO);
+	public int add(BoardDTO boardDTO, MultipartFile[] attach) throws Exception {
+		int result = qnaDAO.add(boardDTO);
+		qnaDAO.refUpdate(boardDTO);
+		
+		for (MultipartFile f : attach) {
+			File file = new File(uploadPath);
+			
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+			
+			String fileName = UUID.randomUUID().toString();
+			fileName = fileName + "_" + f.getOriginalFilename();
+			
+			file = new File(file, fileName);
+			
+			FileCopyUtils.copy(f.getBytes(), file);
+			
+			BoardFileDTO boardFileDTO = new BoardFileDTO();
+			boardFileDTO.setFileName(fileName);
+			boardFileDTO.setFileOrigin(f.getOriginalFilename());
+			boardFileDTO.setBoardNum(boardDTO.getBoardNum());
+			
+			qnaDAO.fileAdd(boardFileDTO);
+		}
 		
 		return result;
 	}

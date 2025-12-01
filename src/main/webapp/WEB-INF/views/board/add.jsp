@@ -48,7 +48,7 @@
                     	        <h4 class="m-0 font-weight-bold text-primary">${category} ${sub}</h4>
 	                        </div>
 	                        <div class="card-body">
-								<form method="post">
+								<form method="post" enctype="multipart/form-data">
 								  <input type="hidden" name="boardNum" value="${dto.boardNum}"> <!-- EL을 사용했기 때문에 Exception 발생 X -->
 								  <div class="form-group">
 								    <label for="title">Title</label>
@@ -62,6 +62,15 @@
 								    <label for="contents">Contents</label>
 								    <textarea class="form-control" id="contents" name="boardContents">${dto.boardContents}</textarea>
 								  </div>
+								  
+								  <div class="form-group">
+								  	<button type="button" class="btn btn-info" id="fileAdd">File Add</button>	
+								  </div>
+								  
+								  <div id="files">
+								  	
+								  </div>
+								  
 								  <div class="mt-5 d-flex justify-content-end">
 								  	<a href="./list" class="btn btn-secondary mr-2" role="button">Cancel</a>
 					                <button type="submit" class="btn btn-info">${sub}</button>
@@ -93,12 +102,13 @@
 	
 	<c:import url="/WEB-INF/views/template/foot.jsp"></c:import>
 	
+	<script src="/js/board/board.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.js"></script>
 	<script>
       $('#contents').summernote({ /* jQuery : 호출하는 요소.메서드명 */
         tabsize: 2,
         height: 300
       });
-    </script>
+  </script>
 </body>
 </html>

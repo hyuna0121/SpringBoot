@@ -32,7 +32,7 @@
 		ORDER BY board_num DESC LIMIT #{startNum}, #{perPage}
 	</select>
 	
-	<insert id="add" parameterType="NoticeDTO">
+	<insert id="add" parameterType="NoticeDTO" useGeneratedKeys="true" keyProperty="boardNum">
 		INSERT INTO notice VALUES (null, #{boardTitle}, #{boardWriter}, #{boardContents}, now(), 0)
 	</insert>
 	
@@ -43,4 +43,8 @@
 	<delete id="delete" parameterType="NoticeDTO">
 		DELETE FROM notice WHERE board_num=#{boardNum}
 	</delete>
+	
+	<insert id="fileAdd" parameterType="NoticeFileDTO">
+		INSERT INTO notice_files VALUES (null, #{fileName}, #{fileOrigin}, #{boardNum})
+	</insert>
 </mapper>
