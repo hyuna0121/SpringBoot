@@ -50,9 +50,17 @@
 	                            </div>
 	                            <div class="card-body" style="min-height: 300px;">
 	                            	${dto.boardContents}
+	                            	
 	                            </div>
+                            	<div>
+  									<c:forEach items="${dto.fileDTOs}" var="file">
+  										<div>
+  											<a href="/files/${category}/${file.fileName}">${file.fileOrigin}</a>
+  										</div>
+  									</c:forEach>                          		
+                            	</div>
 	                            <div class="card-footer py-3 d-flex justify-content-between">
-	                            	<c:if test="${category ne 'Notice'}">
+	                            	<c:if test="${category ne 'notice'}">
 		                            	<a href="./reply?boardNum=${dto.boardNum}" class="btn btn-primary">답글</a>
 	                            	</c:if>
      	                            <a href="./list" class="btn btn-secondary btn-icon-split" role="button">

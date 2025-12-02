@@ -15,9 +15,24 @@
 		</if>
 	</sql>
 	
-	<select id="detail" parameterType="QnaDTO" resultType="QnaDTO">
-		SELECT * FROM qna WHERE board_num=#{boardNum}
+	<select id="detail" parameterType="QnaDTO" resultMap="detailResult">
+		SELECT * FROM qna Q LEFT JOIN qna_files QF USING (board_num) WHERE Q.board_num = #{boardNum}
 	</select>
+	
+	<resultMap type="QnaDTO" id="detailResult">
+		<id column="board_num" property="boardNum"/>
+		<result column="board_title" property="boardTitle"/>
+		<result column="board_writer" property="boardWriter"/>
+		<result column="board_contents" property="boardContents"/>
+		<result column="board_date" property="boardDate"/>
+		<result column="board_hit" property="boardHit"/>
+		<collection property="fileDTOs" javaType="java.util.List" ofType="BoardFileDTO">
+			<id column="file_num" property="fileNum"/>
+			<result column="file_name" property="fileName"/>
+			<result column="file_origin" property="fileOrigin"/>
+			<result column="board_num" property="boardNum"/>
+		</collection>
+	</resultMap>
 	
 	<select id="list" parameterType="Pager" resultType="QnaDTO">
 		SELECT * FROM qna 

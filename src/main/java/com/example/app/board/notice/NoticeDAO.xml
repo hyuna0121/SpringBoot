@@ -22,9 +22,24 @@
 		<include refid="search"></include>
 	</select>
 	
-	<select id="detail" parameterType="NoticeDTO" resultType="NoticeDTO">
-		SELECT * FROM notice WHERE board_num=#{boardNum}
+	<select id="detail" parameterType="NoticeDTO" resultMap="detailResult">
+		SELECT * FROM notice N LEFT JOIN notice_files NF USING (board_num) WHERE N.board_num = #{boardNum}
 	</select>
+	
+	<resultMap type="NoticeDTO" id="detailResult">
+		<id column="board_num" property="boardNum" />
+		<result column="board_title" property="boardTitle"/>
+		<result column="board_writer" property="boardWriter"/>
+		<result column="board_contents" property="boardContents"/>
+		<result column="board_date" property="boardDate"/>
+		<result column="board_hit" property="boardHit"/>
+		<collection property="fileDTOs" javaType="java.util.List" ofType="BoardFileDTO">
+			<id column="file_num" property="fileNum"/>
+			<result column="file_name" property="fileName"/>
+			<result column="file_origin" property="fileOrigin"/>
+			<result column="board_num" property="boardNum"/>
+		</collection>
+	</resultMap>
 	
 	<select id="list" parameterType="Pager" resultType="NoticeDTO">
 		SELECT * FROM notice 
@@ -44,7 +59,7 @@
 		DELETE FROM notice WHERE board_num=#{boardNum}
 	</delete>
 	
-	<insert id="fileAdd" parameterType="NoticeFileDTO">
+	<insert id="fileAdd" parameterType="BoardFileDTO">
 		INSERT INTO notice_files VALUES (null, #{fileName}, #{fileOrigin}, #{boardNum})
 	</insert>
 </mapper>

@@ -14,6 +14,7 @@ import com.example.app.board.BoardDAO;
 import com.example.app.board.BoardDTO;
 import com.example.app.board.BoardFileDTO;
 import com.example.app.board.BoardService;
+import com.example.app.files.FileManager;
 import com.example.app.util.Pager;
 
 @Service
@@ -21,6 +22,9 @@ public class NoticeService implements BoardService {
 	
 	@Autowired
 	private NoticeDAO noticeDAO;
+	
+	@Autowired
+	private FileManager fileManager;
 	
 	@Value("${app.upload.notice}")
 	private String uploadPath;
@@ -44,27 +48,20 @@ public class NoticeService implements BoardService {
 	public int add(BoardDTO boardDTO, MultipartFile[] attach) throws Exception {
 		int result = noticeDAO.add(boardDTO);
 		
+		if (attach == null) {
+			return result;
+		}
+		
 		// 1. 파일을 HDD에 저장
 		//   1) 어디에 저장?
 		//   2) 어떤 이름으로 저장?
+		File file = new File(uploadPath);
 		for (MultipartFile f : attach) {
-			File file = new File(uploadPath);
+			if (f == null || f.isEmpty()) { continue; }
 			
-			if (!file.exists()) {
-				file.mkdirs();
-			}
-			
-			String fileName = UUID.randomUUID().toString();
-			fileName = fileName + "_" + f.getOriginalFilename();
-			
-			file = new File(file, fileName);
-			
-			// 2. 파일 저장
-			//   1) 파일 저장 클래스
-			FileCopyUtils.copy(f.getBytes(), file);
-			
-			// 3. 정보를 DB에 저장
-			BoardFileDTO boardFileDTO = new NoticeFileDTO();
+			String fileName = fileManager.fileSave(file, f);
+					
+			BoardFileDTO boardFileDTO = new BoardFileDTO();
 			boardFileDTO.setFileName(fileName);
 			boardFileDTO.setFileOrigin(f.getOriginalFilename());
 			boardFileDTO.setBoardNum(boardDTO.getBoardNum());

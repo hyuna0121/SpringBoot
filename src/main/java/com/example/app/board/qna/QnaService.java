@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.app.board.BoardDTO;
 import com.example.app.board.BoardFileDTO;
 import com.example.app.board.BoardService;
+import com.example.app.files.FileManager;
 import com.example.app.util.Pager;
 
 @Service
@@ -20,6 +21,9 @@ public class QnaService implements BoardService {
 
 	@Autowired
 	private QnaDAO qnaDAO;
+	
+	@Autowired
+	private FileManager fileManager;
 	
 	@Value("${app.upload.qna}")
 	private String uploadPath;
@@ -43,19 +47,17 @@ public class QnaService implements BoardService {
 		int result = qnaDAO.add(boardDTO);
 		qnaDAO.refUpdate(boardDTO);
 		
+		if (attach == null) {
+			return result;
+		}
+		
+		File file = new File(uploadPath);
 		for (MultipartFile f : attach) {
-			File file = new File(uploadPath);
-			
-			if (!file.exists()) {
-				file.mkdirs();
+			if (f == null || f.isEmpty()) {
+				continue;
 			}
 			
-			String fileName = UUID.randomUUID().toString();
-			fileName = fileName + "_" + f.getOriginalFilename();
-			
-			file = new File(file, fileName);
-			
-			FileCopyUtils.copy(f.getBytes(), file);
+			String fileName = fileManager.fileSave(file, f);
 			
 			BoardFileDTO boardFileDTO = new BoardFileDTO();
 			boardFileDTO.setFileName(fileName);
