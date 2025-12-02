@@ -62,4 +62,8 @@
 	<insert id="fileAdd" parameterType="BoardFileDTO">
 		INSERT INTO notice_files VALUES (null, #{fileName}, #{fileOrigin}, #{boardNum})
 	</insert>
+	
+	<delete id="fileDelete" parameterType="BoardDTO">
+		DELETE FROM notice_files WHERE board_num = #{boardNum}
+	</delete>
 </mapper>

@@ -77,6 +77,17 @@ public class QnaService implements BoardService {
 
 	@Override
 	public int delete(BoardDTO boardDTO) throws Exception {
+		boardDTO = qnaDAO.detail(boardDTO);
+		
+		if (boardDTO.getFileDTOs() != null) {
+			for (BoardFileDTO boardFileDTO : boardDTO.getFileDTOs()) {
+				File file = new File(uploadPath, boardFileDTO.getFileName());
+				boolean flag = fileManager.fileDelete(file);
+			}
+			
+			qnaDAO.fileDelete(boardDTO);
+		}
+		
 		return qnaDAO.delete(boardDTO);
 	}
 	
