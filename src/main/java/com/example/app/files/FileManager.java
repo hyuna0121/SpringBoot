@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class FileManager {
 
-	// TDD : 에어를 발생시키면서 코드를 작성하는 기법
+	// TDD : 에러를 발생시키면서 코드를 작성하는 기법
 	public String fileSave(File file, MultipartFile f) throws Exception {
 		if (!file.exists()) { file.mkdirs(); }
 		
