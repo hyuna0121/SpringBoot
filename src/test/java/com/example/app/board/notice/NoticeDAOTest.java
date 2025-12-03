@@ -7,8 +7,11 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Transactional()
 class NoticeDAOTest {
 	
 	@Autowired
@@ -41,21 +44,22 @@ class NoticeDAOTest {
 //		assertEquals(1, result);
 //	}
 	
-//	@Test
-//	void testAdd() throws Exception {
-//		
-//		for (int i = 0; i < 120; i++) {
-//			NoticeDTO noticeDTO = new NoticeDTO();
-//			noticeDTO.setBoardTitle("title" + i);
-//			noticeDTO.setBoardWriter("writer" + i);
-//			noticeDTO.setBoardContents("contents" + i);
-//			
-//			noticeDAO.add(noticeDTO);
-//			
-//			if (i % 10 == 0) Thread.sleep(500);
-//		}
-//		
-//	}
+	@Test
+	@Rollback(false)
+	void testAdd() throws Exception {
+		
+		for (int i = 0; i < 120; i++) {
+			NoticeDTO noticeDTO = new NoticeDTO();
+			noticeDTO.setBoardTitle("title" + i);
+			noticeDTO.setBoardWriter("writer" + i);
+			noticeDTO.setBoardContents("contents" + i);
+			
+			noticeDAO.add(noticeDTO);
+			
+			if (i % 10 == 0) Thread.sleep(500);
+		}
+		
+	}
 	
 //	@Test
 //	void testList() throws Exception {
