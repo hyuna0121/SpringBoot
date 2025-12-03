@@ -73,4 +73,8 @@
 	<delete id="fileDelete" parameterType="BoardDTO">
 		DELETE FROM qna_files WHERE board_num=#{boardNum}
 	</delete>
+	
+	<select id="fileDetail" parameterType="BoardFileDTO" resultType="BoardFileDTO">
+		SELECT * FROM qna_files WHERE file_num = #{fileNum}
+	</select>
 </mapper>
