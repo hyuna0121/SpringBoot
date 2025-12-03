@@ -1,0 +1,44 @@
+package com.example.app.config;
+
+import java.util.Locale;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+@Configuration
+public class MessageConfig implements WebMvcConfigurer {
+
+	@Bean
+	LocaleResolver localeResolver() {
+		// 1. Session
+//		SessionLocaleResolver resolver = new SessionLocaleResolver();
+//		resolver.setDefaultLocale(Locale.KOREAN);
+//		
+//		return resolver;
+		
+		// 2. Cookie
+		CookieLocaleResolver resolver = new CookieLocaleResolver();
+		resolver.setDefaultLocale(Locale.KOREAN);
+		
+		return resolver;
+	}
+	
+	LocaleChangeInterceptor changeInterceptor() {
+		LocaleChangeInterceptor changeInterceptor = new LocaleChangeInterceptor();
+		changeInterceptor.setParamName("lang");
+		
+		return changeInterceptor;
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(this.changeInterceptor()).addPathPatterns("/**");
+	}
+	
+}
