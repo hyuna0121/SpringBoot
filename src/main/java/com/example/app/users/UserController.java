@@ -8,19 +8,33 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/users/*")
-public class UsersController {
+public class UserController {
 
 	@Autowired
-	private UsersService usersService;
+	private UserService userService;
+	
+	@GetMapping("login")
+	public void login() throws Exception { }
+	
+	@PostMapping("login")
+	public String login(UserDTO userDTO, HttpSession session) throws Exception {
+		userDTO = userService.detail(userDTO);
+		
+		session.setAttribute("user", userDTO);
+		
+		return "redirect:/";
+	}
 	
 	@GetMapping("register")
 	public void register() throws Exception { }
 	
 	@PostMapping("register")
-	public String register(UsersDTO usersDTO, MultipartFile profile, Model model) throws Exception {
-		int result = usersService.register(usersDTO, profile);
+	public String register(UserDTO userDTO, MultipartFile profile, Model model) throws Exception {
+		int result = userService.register(userDTO, profile);
 		
 		String msg = "가입 실패";
 		String path = "/";
@@ -35,9 +49,9 @@ public class UsersController {
 	}
 	
 	@GetMapping("mypage")
-	public void mypage(UsersDTO usersDTO, Model model) throws Exception {
-		usersDTO = usersService.detail(usersDTO);
-		model.addAttribute("dto", usersDTO);
+	public void mypage(UserDTO userDTO, Model model) throws Exception {
+		userDTO = userService.detail(userDTO);
+		model.addAttribute("dto", userDTO);
 		
 	}
 	

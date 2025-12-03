@@ -41,7 +41,13 @@
                     <div class="row">
                     
                     	<!-- 생성한 contents 작성 -->
+                    	<c:if test="${not empty user}">
+                    		<h1>Login 성공</h1>
+                    	</c:if>
                     	
+                    	<c:if test="${empty user}">
+                    		<h1>Login 실패</h1>
+                    	</c:if>
                     </div>
                     
                 </div>

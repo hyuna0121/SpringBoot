@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class UsersDTO {
+public class UserDTO {
 
 	private String username;
 	private String password;
@@ -18,6 +18,6 @@ public class UsersDTO {
 	private String phone;
 	private LocalDate birth;
 	
-	private UsersFileDTO usersFileDTO;
+	private UserFileDTO userFileDTO;
 	
 }

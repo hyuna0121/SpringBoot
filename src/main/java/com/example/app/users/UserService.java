@@ -11,10 +11,10 @@ import com.example.app.board.BoardFileDTO;
 import com.example.app.files.FileManager;
 
 @Service
-public class UsersService {
+public class UserService {
 
 	@Autowired
-	private UsersDAO usersDAO;
+	private UserDAO userDAO;
 	
 	@Autowired
 	private FileManager fileManager;
@@ -22,8 +22,8 @@ public class UsersService {
 	@Value("${app.upload.users}")
 	private String uploadPath;
 	
-	public int register(UsersDTO usersDTO, MultipartFile profile) throws Exception {
-		int result = usersDAO.register(usersDTO);
+	public int register(UserDTO userDTO, MultipartFile profile) throws Exception {
+		int result = userDAO.register(userDTO);
 		
 		if (profile == null) {
 			return result;
@@ -32,18 +32,28 @@ public class UsersService {
 		File file = new File(uploadPath);
 		String fileName = fileManager.fileSave(file, profile);
 					
-		UsersFileDTO usersFileDTO = new UsersFileDTO();
+		UserFileDTO usersFileDTO = new UserFileDTO();
 		usersFileDTO.setFileName(fileName);
 		usersFileDTO.setFileOrigin(profile.getOriginalFilename());
-		usersFileDTO.setUsername(usersDTO.getUsername());
+		usersFileDTO.setUsername(userDTO.getUsername());
 			
-		usersDAO.userFileAdd(usersFileDTO);
+		userDAO.userFileAdd(usersFileDTO);
 		
 		return result;
 	}
 
-	public UsersDTO detail(UsersDTO usersDTO) throws Exception {
-		return usersDAO.detail(usersDTO);
+	public UserDTO detail(UserDTO userDTO) throws Exception {
+		UserDTO loginDTO = userDAO.detail(userDTO);
+		
+		if (loginDTO != null) {
+			if (loginDTO.getPassword().equals(userDTO.getPassword())) {
+				return loginDTO;
+			} else {
+				loginDTO = null;
+			}
+		}
+		
+		return loginDTO;
 	}
 	
 }
