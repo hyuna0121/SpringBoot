@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.example.app.board.BoardDTO;
 import com.example.app.board.BoardFileDTO;
 import com.example.app.util.Pager;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -47,27 +49,31 @@ public class NoticeController {
 	}
 	
 	@GetMapping("add")
-	public String add(Model model) throws Exception { 
+	public String add(@ModelAttribute("dto") NoticeDTO noticeDTO, Model model) throws Exception { 
 		model.addAttribute("sub", "Add");
 		
 		return "/board/add";
 	}
 	
 	@PostMapping("add")
-	public String add(NoticeDTO noticeDTO, MultipartFile[] attach, Model model) throws Exception {
-		int result = noticeService.add(noticeDTO, attach);
-		
-		String msg = "등록 실패";
-		String path = "./list";
-		if (result > 0) {
-			msg = "등록 성공";
+	public String add(@ModelAttribute("dto") @Valid NoticeDTO noticeDTO, BindingResult bindingResult, MultipartFile[] attach, Model model) throws Exception {
+		if (bindingResult.hasErrors()) {
+			return "/board/add";
 		}
 		
-		model.addAttribute("path", path);
-		model.addAttribute("msg", msg);
+		// int result = noticeService.add(noticeDTO, attach);
 		
-		return "/commons/result";
-//		return "redirect:./list"
+//		String msg = "등록 실패";
+//		String path = "./list";
+//		if (result > 0) {
+//			msg = "등록 성공";
+//		}
+//		
+//		model.addAttribute("path", path);
+//		model.addAttribute("msg", msg);
+		
+		//return "/commons/result";
+		return "redirect:./list";
 	}
 	
 	@GetMapping("detail")

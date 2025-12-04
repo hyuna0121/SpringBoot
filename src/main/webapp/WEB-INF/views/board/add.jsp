@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri="jakarta.tags.core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,19 +49,24 @@
                     	        <h4 class="m-0 font-weight-bold text-primary">${category} ${sub}</h4>
 	                        </div>
 	                        <div class="card-body">
-								<form method="post" enctype="multipart/form-data">
-								  <input type="hidden" name="boardNum" value="${dto.boardNum}"> <!-- EL을 사용했기 때문에 Exception 발생 X -->
+<!-- Form ---------------------------------------------------------->
+								<form:form modelAttribute="dto" method="post" enctype="multipart/form-data">
+								  <form:hidden path="boardNum"/>
+								  
 								  <div class="form-group">
 								    <label for="title">Title</label>
-								    <input type="text" class="form-control" id="title" name="boardTitle" value="${dto.boardTitle}">
+								    <form:input path="boardTitle" cssClass="form-control" id="title"/>
+								    <form:errors path="boardTitle"></form:errors>
 								  </div>
+								  
 								  <div class="form-group">
 								    <label for="writer">Writer</label>
-								    <input type="text" class="form-control" id="writer" name="boardWriter" value="${dto.boardWriter}">
+								    <form:input path="boardWriter" cssClass="form-control" id="writer"/>
 								  </div>
+								  
 								  <div class="form-group">
 								    <label for="contents">Contents</label>
-								    <textarea class="form-control" id="contents" name="boardContents">${dto.boardContents}</textarea>
+								    <form:textarea path="boardContents" cssClass="form-control" id="contents"/>
 								  </div>
 								  
 								  <div class="form-group">
@@ -75,7 +81,7 @@
 								  	<a href="./list" class="btn btn-secondary mr-2" role="button">Cancel</a>
 					                <button type="submit" class="btn btn-info">${sub}</button>
 					              </div>
-								</form>
+								</form:form>
 	                        </div>
 						</div>  
                     </div>

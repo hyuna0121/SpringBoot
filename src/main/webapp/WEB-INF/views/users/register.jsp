@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,41 +31,40 @@
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
                             
-                            <form class="user" method="post" enctype="multipart/form-data">
+                            <form:form modelAttribute="userDTO" method="post" enctype="multipart/form-data" cssClass="user">
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="username"
-                                        placeholder="ID" required>
+	                            	<form:input path="username" cssClass="form-control form-control-user" placeholder="ID"/>
+	                            	<form:errors path="username"></form:errors>
                                 </div>
                                 
                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-user" name="password"
-                                        placeholder="Password" required>
+	                            	<form:password path="password" cssClass="form-control form-control-user" placeholder="Password"/>
+	                            	<form:errors path="password"></form:errors>
                                 </div>
                                 
-                                <!-- Repeat Password -->
-<!--                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-user" id="repeatPassword"
-                                        placeholder="Repeat Password">
-                                </div> -->
+                                <div class="form-group">
+	                            	<form:password path="passwordCheck" cssClass="form-control form-control-user" placeholder="Password"/>
+	                            	<form:errors path="passwordCheck"></form:errors>
+                                </div>
                                 
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="name"
-                                        placeholder="Name" required>
+	                            	<form:input path="name" cssClass="form-control form-control-user" placeholder="Name"/>
+	                            	<form:errors path="name"></form:errors>
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" name="email"
-                                        placeholder="Email Address" required>
+	                            	<form:input path="email" cssClass="form-control form-control-user" placeholder="Email Address"/>
+	                            	<form:errors path="email"></form:errors>
                                 </div>
                                 
                                 <div class="form-group">
-                                    <input type="tel" class="form-control form-control-user" name="phone"
-                                        placeholder="Phone Number">
+	                            	<form:input path="phone" cssClass="form-control form-control-user" placeholder="Phone Number"/>
+	                            	<form:errors path="phone"></form:errors>
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="date" class="form-control form-control-user" name="birth"
-                                            placeholder="Birth Date">
+	                            	<form:input type="date" path="birth" cssClass="form-control form-control-user" placeholder="Birth Date"/>
+	                            	<form:errors path="birth"></form:errors>
                                 </div>
                                 
                                 <!-- Profile Image -->
@@ -77,7 +77,7 @@
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Register Account
                                 </button>
-                            </form>
+                            </form:form>
                             <hr>
                             <div class="text-center">
                                 <a class="small" href="forgot-password.html">Forgot Password?</a>
