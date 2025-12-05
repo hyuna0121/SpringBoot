@@ -1,6 +1,8 @@
 package com.example.app.product;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,22 @@ public class ProductService {
 	
 	public int update(ProductDTO productDTO) throws Exception {
 		return productDAO.update(productDTO);
+	}
+	
+	
+	// 댓글
+	public List<ProductCommentDTO> commentList(ProductCommentDTO productCommentDTO, Pager pager) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("product", productCommentDTO);
+		map.put("pager", pager);
+		
+		pager.paging(20L);
+		
+		return productDAO.commentList(map);
+	}
+	
+	public int commentAdd(ProductCommentDTO productCommentDTO) throws Exception{
+		return productDAO.commentAdd(productCommentDTO);
 	}
 	
 }

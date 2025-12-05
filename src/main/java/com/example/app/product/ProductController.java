@@ -1,6 +1,7 @@
 package com.example.app.product;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.app.util.Pager;
 
@@ -90,6 +92,21 @@ public class ProductController {
 		model.addAttribute("path", path);
 		
 		return "/commons/result";
+	}
+	
+	
+	// 댓글
+	@GetMapping("commentList")
+	@ResponseBody
+	public List<ProductCommentDTO> commentList(ProductCommentDTO productCommentDTO, Pager pager) throws Exception {
+		List<ProductCommentDTO> list = productService.commentList(productCommentDTO, pager);
+		
+		return list;
+	}
+	
+	@PostMapping("commentAdd")
+	public void commentAdd(ProductCommentDTO productCommentDTO) throws Exception {
+		
 	}
 	
 }

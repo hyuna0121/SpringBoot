@@ -74,6 +74,15 @@
 								
 								    </div>
 	                            </div>
+	                            
+	                            <!-- 댓글 -->
+	                            <div>
+	                            	<table>
+	                            		<tbody id="list" data-product-num="${product.productNum}">
+	                            			
+	                            		</tbody>
+	                            	</table>
+	                            </div>
 	                        </div>
 	                        
                     	</div>
@@ -101,5 +110,7 @@
 	</div>
 	
 	<c:import url="/WEB-INF/views/template/foot.jsp"></c:import>
+	
+	<script type="text/javascript" src="/js/product/product_comment.js"></script>
 </body>
 </html>
