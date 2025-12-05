@@ -93,6 +93,7 @@
 						    <c:forEach begin="${pager.begin}" end="${pager.end}" var="i">
 							    <li class="page-item"><a class="page-link" href="./list?page=${i}&kind=${pager.kind}&search=${param.search}">${i}</a></li>
 					  		</c:forEach>
+					  		<li>
 						      <a class="page-link" href="./list?page=${pager.end + 1}&kind=${pager.kind}&search=${param.search}" aria-label="Next">
 						        <span aria-hidden="true">&raquo;</span>
 						      </a>

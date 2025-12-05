@@ -33,7 +33,15 @@
 		SELECT * FROM comment WHERE product_num=#{product.productNum} ORDER BY board_num DESC LIMIT #{pager.startNum}, #{pager.perPage}
 	</select>
 	
+	<select id="commentCount" parameterType="ProductCommentDTO" resultType="Long">
+		SELECT COUNT(board_num) FROM comment WHERE product_num=#{productNum}
+	</select>
+	
 	<insert id="commentAdd" parameterType="ProductCommentDTO">
 		INSERT INTO comment VALUES(null, #{boardContents}, now(), #{productNum}, #{username})		
 	</insert>
+	
+	<delete id="commentDelete" parameterType="ProductCommentDTO">
+		DELETE FROM comment WHERE board_num=#{boardNum}
+	</delete>
 </mapper>

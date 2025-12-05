@@ -27,4 +27,8 @@ public interface ProductDAO {
 	public List<ProductCommentDTO> commentList(Map<String, Object> map) throws Exception;
 	
 	public int commentAdd(ProductCommentDTO productCommentDTO) throws Exception;
+	
+	public Long commentCount(ProductCommentDTO productCommentDTO) throws Exception;
+	
+	public int commentDelete(ProductCommentDTO productCommentDTO) throws Exception;
 }

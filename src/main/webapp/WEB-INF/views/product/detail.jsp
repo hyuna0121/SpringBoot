@@ -51,37 +51,33 @@
 	                            <div class="card-body" style="min-height: 300px;">
 	                            	${product.productContents}
 	                            </div>
-	                            <div class="card-footer py-3 d-flex justify-content-between">
-     	                            <a href="./list" class="btn btn-secondary btn-icon-split" role="button">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-list"></i>
-                                        </span>
-                                        <span class="text">List</span>
-                                    </a>
-                                    
-                                    <div>
-								        <a href="./update?productNum=${product.productNum}" class="btn btn-primary btn-icon-split mx-1">
-								            <span class="icon text-white-50">
-								                <i class="fas fa-edit"></i>
-								            </span>
-								            <span class="text">Edit</span>
-								        </a>
-								        
-								        <form action="./delete" method="post">
-								        	<input type="hidden" name="productNum" value="${product.productNum}">
-								        	<button class="btn btn-danger" id="del">Delete</button>
-								        </form>
+	                            <div class="card-footer py-3 d-flex align-items-center justify-content-end">
+								    <a href="./list" class="btn btn-secondary btn-icon-split mx-1" role="button">
+								        <span class="icon text-white-50">
+								            <i class="fas fa-list"></i>
+								        </span>
+								        <span class="text">List</span>
+								    </a>
 								
-								    </div>
-	                            </div>
+								    <button class="btn btn-warning mx-1">Add Cart</button>
+								
+								    <button class="btn btn-info mx-1" data-toggle="modal" data-target="#commentModal">Comment</button>
+								
+								    <a href="./update?productNum=${product.productNum}" class="btn btn-primary btn-icon-split mx-1">
+								        <span class="icon text-white-50">
+								            <i class="fas fa-edit"></i>
+								        </span>
+								        <span class="text">Edit</span>
+								    </a>
+								
+								    <form action="./delete" method="post" class="mx-1 mb-0">
+								        <input type="hidden" name="productNum" value="${product.productNum}">
+								        <button class="btn btn-danger" id="del">Delete</button>
+								    </form>
+								</div>
 	                            
 	                            <!-- 댓글 -->
-	                            <div>
-	                            	<table>
-	                            		<tbody id="list" data-product-num="${product.productNum}">
-	                            			
-	                            		</tbody>
-	                            	</table>
+	                            <div id="list" data-product-num="${product.productNum}">
 	                            </div>
 	                        </div>
 	                        
@@ -107,6 +103,31 @@
             
         </div>
         
+        
+	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+	    	<div class="modal-content">
+	        	<div class="modal-header">
+	         		<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          			<span aria-hidden="true">&times;</span>
+	        		</button>
+	      		</div>
+	      		<div class="modal-body">
+	        		<form action="" method="post">
+	        			<input type="hidden" name="productNum" value="${product.productNum}">
+	        			<textarea class="form-control" id="commentContents" name="boardContents"></textarea>
+	        		</form>
+	      		</div>
+	      		<div class="modal-footer">
+	        		<button type="button" class="btn btn-secondary" id="closeComment" data-dismiss="modal">Close</button>
+	        		<button type="button" class="btn btn-primary" id="addComment">Add Comment</button>
+	      		</div>
+	    	</div>
+	  	</div>
 	</div>
 	
 	<c:import url="/WEB-INF/views/template/foot.jsp"></c:import>

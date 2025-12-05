@@ -42,17 +42,23 @@ public class ProductService {
 	
 	// 댓글
 	public List<ProductCommentDTO> commentList(ProductCommentDTO productCommentDTO, Pager pager) throws Exception {
+		pager.setPerPage(5L);
 		Map<String, Object> map = new HashMap<>();
 		map.put("product", productCommentDTO);
 		map.put("pager", pager);
 		
-		pager.paging(20L);
+		Long totalCount = productDAO.commentCount(productCommentDTO);
+		pager.paging(totalCount);
 		
 		return productDAO.commentList(map);
 	}
 	
 	public int commentAdd(ProductCommentDTO productCommentDTO) throws Exception{
 		return productDAO.commentAdd(productCommentDTO);
+	}
+	
+	public int commentDelete(ProductCommentDTO productCommentDTO) throws Exception {
+		return productDAO.commentDelete(productCommentDTO);
 	}
 	
 }
