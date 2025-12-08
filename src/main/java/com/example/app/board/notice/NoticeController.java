@@ -61,7 +61,7 @@ public class NoticeController {
 			return "/board/add";
 		}
 		
-		// int result = noticeService.add(noticeDTO, attach);
+		int result = noticeService.add(noticeDTO, attach);
 		
 //		String msg = "등록 실패";
 //		String path = "./list";

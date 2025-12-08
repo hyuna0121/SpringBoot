@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.app.users.UserDTO;
 import com.example.app.util.Pager;
 
 @Mapper
@@ -31,4 +32,10 @@ public interface ProductDAO {
 	public Long commentCount(ProductCommentDTO productCommentDTO) throws Exception;
 	
 	public int commentDelete(ProductCommentDTO productCommentDTO) throws Exception;
+	
+	
+	// 장바구니
+	public int addCart(Map<String, Object> map) throws Exception;
+
+	public List<ProductDTO> cartList(UserDTO userDTO) throws Exception;
 }

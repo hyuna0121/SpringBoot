@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.app.users.UserDTO;
 import com.example.app.util.Pager;
 
 @Service
@@ -61,4 +62,17 @@ public class ProductService {
 		return productDAO.commentDelete(productCommentDTO);
 	}
 	
+	
+	// 장바구니
+	public int addCart(ProductDTO productDTO, UserDTO userDTO) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("product", productDTO);
+		map.put("user", userDTO);
+		
+		return productDAO.addCart(map);
+	}
+
+	public List<ProductDTO> cartList(UserDTO userDTO) throws Exception {
+		return productDAO.cartList(userDTO);
+	}
 }

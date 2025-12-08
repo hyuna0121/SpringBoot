@@ -123,4 +123,22 @@ public class ProductController {
 		return result;
 	}
 	
+	@GetMapping("addCart")
+	@ResponseBody
+	public int addCart(ProductDTO productDTO, HttpSession session) throws Exception {
+		UserDTO userDTO = (UserDTO) session.getAttribute("user"); 
+		
+		int result = productService.addCart(productDTO, userDTO);
+		
+		return result;
+	}
+	
+	@GetMapping("cart") 
+	public void cart(Model model, HttpSession session) throws Exception {
+		UserDTO userDTO = (UserDTO) session.getAttribute("user");
+		
+		List<ProductDTO> productList = productService.cartList(userDTO);
+		model.addAttribute("product", productList);
+	}
+	
 }

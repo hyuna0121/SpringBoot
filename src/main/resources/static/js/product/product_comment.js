@@ -7,6 +7,8 @@ const addComment = document.getElementById('addComment');
 const closeComment = document.getElementById('closeComment');
 const commentContents = document.getElementById('commentContents');
 
+const addCartBtn = document.getElementById('addCartBtn');
+
 commentList(1);
 
 addComment.addEventListener('click', () => {
@@ -20,7 +22,7 @@ addComment.addEventListener('click', () => {
 	})
 	.then(r => r.json())
 	.then(r => {
-		console.log(r)
+		console.log(r);
 		if (r > 0) commentList(1);
 	})
 	.catch(e => console.log(e))
@@ -49,6 +51,13 @@ list.addEventListener('click', (e) => {
 	}
 });
 
+addCartBtn.addEventListener('click', () => {
+	addCart();
+	if (confirm('장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?')) {
+		alert('Yes');
+	}
+});
+
 function commentList(page) {
 	fetch(`commentList?productNum=${num}&page=${page}`)
 		.then(res => res.text())
@@ -58,4 +67,16 @@ function commentList(page) {
 
 function commentDelete() {
 	console.log('delete');
+}
+
+function addCart() {
+	fetch(`addCart?productNum=${num}`)
+		.then(res => res.json())
+		.then(res => {
+			console.log(res);
+			if (res > 0 && confirm('장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?')) {
+				location.href='./cart';
+			}
+		})
+		.catch(e => console.log(e));
 }

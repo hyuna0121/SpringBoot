@@ -44,4 +44,14 @@
 	<delete id="commentDelete" parameterType="ProductCommentDTO">
 		DELETE FROM comment WHERE board_num=#{boardNum}
 	</delete>
+	
+	
+	<!-- 장바구니 -->
+	<insert id="addCart" parameterType="java.util.Map">
+		INSERT INTO cart VALUES (#{product.productNum}, #{user.username})
+	</insert>
+	
+	<select id="cartList" parameterType="UserDTO" resultType="ProductDTO">
+		SELECT * FROM cart WHERE username=#{username}
+	</select>
 </mapper>

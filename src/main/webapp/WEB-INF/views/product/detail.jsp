@@ -59,7 +59,7 @@
 								        <span class="text">List</span>
 								    </a>
 								
-								    <button class="btn btn-warning mx-1">Add Cart</button>
+								    <button class="btn btn-warning mx-1" id="addCartBtn">Add Cart</button>
 								
 								    <button class="btn btn-info mx-1" data-toggle="modal" data-target="#commentModal">Comment</button>
 								
