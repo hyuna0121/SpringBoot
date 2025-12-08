@@ -40,7 +40,7 @@ public class QnaController {
 			model.addAttribute("dto", qnaDTO);
 		}
 		
-		return "/board/detail";
+		return "board/detail";
 	}
 
 	@GetMapping("list")
@@ -50,14 +50,14 @@ public class QnaController {
 		model.addAttribute("list", qnaList);
 		model.addAttribute("pager", pager);
 		
-		return "/board/list";
+		return "board/list";
 	}
 	
 	@GetMapping("add")
 	public String add(Model model) throws Exception {
 		model.addAttribute("sub", "Add");
 		
-		return "/board/add";
+		return "board/add";
 	}
 	
 	@PostMapping("add")
@@ -73,14 +73,14 @@ public class QnaController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("path", path);
 		
-		return "/commons/result";
+		return "commons/result";
 	}
 	
 	@GetMapping("reply")
 	public String reply(QnaDTO qnaDTO, Model model) throws Exception {
 		model.addAttribute("dto", qnaDTO);
 		
-		return "/board/add";
+		return "board/add";
 	}
 	
 	@PostMapping("reply")
@@ -96,7 +96,7 @@ public class QnaController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("path", path);
 		
-		return "/commons/result";
+		return "commons/result";
 	}
 	
 	@GetMapping("update")
@@ -108,7 +108,7 @@ public class QnaController {
 			model.addAttribute("sub", "Update");
 		}
 		
-		return "/board/add";
+		return "board/add";
 	}
 	
 	@PostMapping("update")
@@ -124,7 +124,7 @@ public class QnaController {
 		model.addAttribute("path", path);
 		model.addAttribute("msg", msg);
 		
-		return "/commons/result";
+		return "commons/result";
 	}
 	
 	@PostMapping("delete")

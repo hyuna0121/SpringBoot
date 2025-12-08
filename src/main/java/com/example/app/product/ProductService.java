@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.example.app.users.UserDTO;
@@ -64,15 +65,15 @@ public class ProductService {
 	
 	
 	// 장바구니
-	public int addCart(ProductDTO productDTO, UserDTO userDTO) throws Exception {
+	public int addCart(ProductDTO productDTO, UserDetails userDetails) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		map.put("product", productDTO);
-		map.put("user", userDTO);
+		map.put("user", userDetails);
 		
 		return productDAO.addCart(map);
 	}
 
-	public List<ProductDTO> cartList(UserDTO userDTO) throws Exception {
-		return productDAO.cartList(userDTO);
+	public List<ProductDTO> cartList(UserDetails userDetails) throws Exception {
+		return productDAO.cartList(userDetails);
 	}
 }

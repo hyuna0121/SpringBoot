@@ -22,15 +22,6 @@ public class UserController {
 	@GetMapping("login")
 	public void login() throws Exception { }
 	
-	@PostMapping("login")
-	public String login(UserDTO userDTO, HttpSession session) throws Exception {
-		userDTO = userService.detail(userDTO);
-		
-		session.setAttribute("user", userDTO);
-		
-		return "redirect:/";
-	}
-	
 	@GetMapping("register")
 	public void register(UserDTO userDTO) throws Exception { }
 	
@@ -38,21 +29,21 @@ public class UserController {
 	public String register(@Valid UserDTO userDTO, BindingResult bindingResult, MultipartFile profile, Model model) throws Exception {
 		if (userService.getError(userDTO, bindingResult)) {
 			
-			return "/users/register";
+			return "users/register";
 		}
 		
-//		int result = userService.register(userDTO, profile);
-//		
-//		String msg = "가입 실패";
-//		String path = "/";
-//		if (result > 0) {
-//			msg = "가입 성공";
-//		}
-//		
-//		model.addAttribute("msg", msg);
-//		model.addAttribute("path", path);
+		int result = userService.register(userDTO, profile);
 		
-		return "/commons/result";
+		String msg = "가입 실패";
+		String path = "/";
+		if (result > 0) {
+			msg = "가입 성공";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("path", path);
+		
+		return "commons/result";
 	}
 	
 	@GetMapping("mypage")

@@ -45,20 +45,20 @@ public class NoticeController {
 		model.addAttribute("list", noticeList);
 		model.addAttribute("pager", pager);
 		
-		return "/board/list";
+		return "board/list";
 	}
 	
 	@GetMapping("add")
 	public String add(@ModelAttribute("dto") NoticeDTO noticeDTO, Model model) throws Exception { 
 		model.addAttribute("sub", "Add");
 		
-		return "/board/add";
+		return "board/add";
 	}
 	
 	@PostMapping("add")
 	public String add(@ModelAttribute("dto") @Valid NoticeDTO noticeDTO, BindingResult bindingResult, MultipartFile[] attach, Model model) throws Exception {
 		if (bindingResult.hasErrors()) {
-			return "/board/add";
+			return "board/add";
 		}
 		
 		int result = noticeService.add(noticeDTO, attach);
@@ -86,7 +86,7 @@ public class NoticeController {
 			model.addAttribute("dto", boardDTO);
 		}
 		
-		return "/board/detail";
+		return "board/detail";
 	}
 	
 	@GetMapping("update")
@@ -98,7 +98,7 @@ public class NoticeController {
 			model.addAttribute("sub", "Update");
 		}
 		
-		return "/board/add";
+		return "board/add";
 	}
 	
 	@PostMapping("update")
@@ -114,7 +114,7 @@ public class NoticeController {
 		model.addAttribute("path", path);
 		model.addAttribute("msg", msg);
 		
-		return "/commons/result";
+		return "commons/result";
 	}
 	
 	@PostMapping("delete")

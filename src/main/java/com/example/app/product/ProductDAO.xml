@@ -51,7 +51,7 @@
 		INSERT INTO cart VALUES (#{product.productNum}, #{user.username})
 	</insert>
 	
-	<select id="cartList" parameterType="UserDTO" resultType="ProductDTO">
-		SELECT * FROM cart WHERE username=#{username}
+	<select id="cartList" parameterType="org.springframework.security.core.userdetails.UserDetails" resultType="ProductDTO">
+		SELECT * FROM cart INNER JOIN product P USING (product_num) WHERE username=#{username}
 	</select>
 </mapper>

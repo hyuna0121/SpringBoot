@@ -11,4 +11,6 @@ public interface UserDAO {
 
 	public UserDTO detail(UserDTO userDTO) throws Exception;
 	
+	public int roleAdd(UserDTO userDTO) throws Exception;
+	
 }

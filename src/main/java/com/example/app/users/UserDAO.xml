@@ -8,11 +8,19 @@
 	</insert>
 	
 	<insert id="userFileAdd" parameterType="UserFileDTO">
-		INSERT INTO profile VALUES(null, #{fileName}, #{fileOrigin}, #{username});
+		INSERT INTO profile VALUES(null, #{fileName}, #{fileOrigin}, #{username})
+	</insert>
+	
+	<insert id="roleAdd" parameterType="UserDTO">
+		INSERT INTO user_role VALUES(#{username}, 3)
 	</insert>
 	
 	<select id="detail" parameterType="UserDTO" resultMap="detailResult">
-		SELECT * FROM users U LEFT JOIN profile P using (username) WHERE username=#{username};
+		SELECT * FROM users U 
+		LEFT JOIN profile P using (username) 
+		LEFT JOIN user_role UR using (username) 
+		LEFT JOIN role R using (role_num) 
+		WHERE username=#{username}
 	</select>
 	
 	<resultMap type="UserDTO" id="detailResult">
@@ -28,5 +36,9 @@
 			<result column="file_origin" property="fileOrigin"/>
 			<result column="username" property="username"/>
 		</association>
+		<collection property="roleDTOs" javaType="java.util.List" ofType="RoleDTO">
+			<id column="role_num" property="roleNum"/>
+			<result column="role_name" property="roleName"/>
+		</collection>
 	</resultMap>
 </mapper>

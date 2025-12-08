@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,7 +55,7 @@ public class ProductController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("path", path);
 		
-		return "/commons/result";
+		return "commons/result";
 	}
 	
 	@PostMapping("delete")
@@ -69,7 +71,7 @@ public class ProductController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("path", path);
 		
-		return "/commons/result";
+		return "commons/result";
 	}
 	
 	@GetMapping("update")
@@ -78,7 +80,7 @@ public class ProductController {
 		
 		model.addAttribute("product", productDTO);
 		
-		return "/product/add";
+		return "product/add";
 	}
 	
 	@PostMapping("update")
@@ -94,7 +96,7 @@ public class ProductController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("path", path);
 		
-		return "/commons/result";
+		return "commons/result";
 	}
 	
 	
@@ -125,20 +127,16 @@ public class ProductController {
 	
 	@GetMapping("addCart")
 	@ResponseBody
-	public int addCart(ProductDTO productDTO, HttpSession session) throws Exception {
-		UserDTO userDTO = (UserDTO) session.getAttribute("user"); 
-		
-		int result = productService.addCart(productDTO, userDTO);
+	public int addCart(ProductDTO productDTO, @AuthenticationPrincipal UserDetails userDetails) throws Exception {
+		int result = productService.addCart(productDTO, userDetails);
 		
 		return result;
 	}
 	
 	@GetMapping("cart") 
-	public void cart(Model model, HttpSession session) throws Exception {
-		UserDTO userDTO = (UserDTO) session.getAttribute("user");
-		
-		List<ProductDTO> productList = productService.cartList(userDTO);
-		model.addAttribute("product", productList);
+	public void cart(Model model, @AuthenticationPrincipal UserDetails userDetails) throws Exception {		
+		List<ProductDTO> productList = productService.cartList(userDetails);
+		model.addAttribute("productList", productList);
 	}
 	
 }

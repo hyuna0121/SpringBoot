@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.app.users.UserDTO;
 import com.example.app.util.Pager;
@@ -37,5 +38,5 @@ public interface ProductDAO {
 	// 장바구니
 	public int addCart(Map<String, Object> map) throws Exception;
 
-	public List<ProductDTO> cartList(UserDTO userDTO) throws Exception;
+	public List<ProductDTO> cartList(UserDetails userDetails) throws Exception;
 }

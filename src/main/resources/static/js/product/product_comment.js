@@ -51,11 +51,20 @@ list.addEventListener('click', (e) => {
 	}
 });
 
-addCartBtn.addEventListener('click', () => {
-	addCart();
-	if (confirm('장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?')) {
-		alert('Yes');
-	}
+addCartBtn.addEventListener('click', async (e) => {
+	try {
+		const result = await addCart(); 
+		
+        if (result > 0) {
+	        if (confirm('장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?')) {
+                location.href = "./cart";
+            }
+        } else {
+	            alert("장바구니 담기에 실패했습니다.");
+	        }
+	    } catch (error) {
+	        console.error(error);
+	    }
 });
 
 function commentList(page) {
@@ -70,13 +79,7 @@ function commentDelete() {
 }
 
 function addCart() {
-	fetch(`addCart?productNum=${num}`)
+	return fetch(`addCart?productNum=${num}`)
 		.then(res => res.json())
-		.then(res => {
-			console.log(res);
-			if (res > 0 && confirm('장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?')) {
-				location.href='./cart';
-			}
-		})
 		.catch(e => console.log(e));
 }

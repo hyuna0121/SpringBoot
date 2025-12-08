@@ -37,7 +37,7 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-user" name="password" value="1234"
+                                    <input type="password" class="form-control form-control-user" name="password" value="lha1234!@"
                                         placeholder="Password" required>
                                 </div>
                                 
