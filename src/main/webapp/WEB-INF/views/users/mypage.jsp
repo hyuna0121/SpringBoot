@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri="jakarta.tags.core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,41 +44,29 @@
                     	<div class="col-lg-6 mt-5">
                     
 	                    	<!-- 생성한 contents 작성 -->
-	                    	<div class="card shadow mb-4">
-	                            <div class="card-header py-3">
-	                                <h4 class="m-0 font-weight-bold text-primary">${dto.username}</h4>
-	                            </div>
-	                            <div class="card-body" style="min-height: 300px;">
-	                            	<p>${dto.name}</p>
-	                            	<p>${dto.email}</p>
-	                            	<p>${dto.phone}</p>
-	                            	<p>${dto.birth}</p>
-	                            	<img alt="프로필이미지" src="/files/users/${dto.usersFileDTO.fileName}" style="width: 500px">
-	                            </div>
-	                            <div class="card-footer py-3 d-flex justify-content-between">
-     	                            <a href="./list" class="btn btn-secondary btn-icon-split" role="button">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-list"></i>
-                                        </span>
-                                        <span class="text">List</span>
-                                    </a>
-                                    
-<%--                                     <div>
-								        <a href="./update?boardNum=${dto.boardNum}" class="btn btn-primary btn-icon-split mx-1">
-								            <span class="icon text-white-50">
-								                <i class="fas fa-edit"></i>
-								            </span>
-								            <span class="text">Edit</span>
-								        </a>
-								        
-								        <form action="./delete" method="post">
-								        	<input type="hidden" name="boardNum" value="${dto.boardNum}">
-								        	<button class="btn btn-danger" id="del">Delete</button>
-								        </form>
-								
-								    </div> --%>
-	                            </div>
-	                        </div>
+	                    	<sec:authorize access="isAuthenticated()">
+	                    		<%-- <sec:authentication property="principal" var="user"/> --%>
+			                    	<div class="card shadow mb-4">
+			                            <div class="card-header py-3">
+			                                <h4 class="m-0 font-weight-bold text-primary">${user.username}</h4>
+			                            </div>
+			                            <div class="card-body" style="min-height: 300px;">
+			                            	<p>${user.name}</p>
+			                            	<p>${user.email}</p>
+			                            	<p>${user.phone}</p>
+			                            	<p>${user.birth}</p>
+			                            	<img alt="프로필이미지" src="/files/users/${user.userFileDTO.fileName}" style="width: 500px">
+			                            </div>
+			                            <div class="card-footer">
+			                            	<a href="./update" class="btn btn-primary btn-icon-split mx-1">
+										        <span class="icon text-white-50">
+										            <i class="fas fa-edit"></i>
+										        </span>
+										        <span class="text">Update</span>
+										    </a>
+			                            </div>
+			                        </div>
+	                    	</sec:authorize>
 	                        
                     	</div>
                     

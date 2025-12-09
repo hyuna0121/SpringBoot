@@ -1,6 +1,10 @@
 package com.example.app.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +24,15 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping("login")
-	public void login() throws Exception { }
+	public String login(HttpSession session) throws Exception {
+		Object obj = session.getAttribute("SPRING_SECURITY_CONTEXT");
+		
+		if (obj != null) {
+			return "redirect:/";
+		}
+		
+		return "users/login";
+	}
 	
 	@GetMapping("register")
 	public void register(UserDTO userDTO) throws Exception { }
@@ -47,9 +59,38 @@ public class UserController {
 	}
 	
 	@GetMapping("mypage")
-	public void mypage(UserDTO userDTO, Model model) throws Exception {
+	public void mypage(@AuthenticationPrincipal UserDTO userDTO, Model model) throws Exception {
 		userDTO = userService.detail(userDTO);
-		model.addAttribute("dto", userDTO);
+		model.addAttribute("user", userDTO);
+	}
+	
+	@GetMapping("update")
+	public void update(@AuthenticationPrincipal UserDTO userDTO, Model model) throws Exception {
+		model.addAttribute("userDTO", userDTO);
+	}
+	
+	@PostMapping("update")
+	public String update(UserDTO userDTO, Authentication authentication, BindingResult bindingResult, MultipartFile profile, Model model) throws Exception {
+		if (userService.getError(userDTO, bindingResult)) {
+			return "users/register";
+		}
+		
+		userDTO.setUsername(authentication.getName());
+		int result = userService.update(userDTO, profile);
+		
+		String msg = "수정 실패";
+		String path = "users/mypage";
+		if (result > 0) {
+			// DB에서 사용자를 조회해야 함
+//			UsernamePasswordAuthenticationToken to = new UsernamePasswordAuthenticationToken(userDTO, authentication.getCredentials(), authentication.getAuthorities());
+//			SecurityContextHolder.getContext().setAuthentication(to);
+			msg = "수정 성공";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("path", path);
+		
+		return "commons/result";
 	}
 	
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.app.board.BoardDTO;
 import com.example.app.board.BoardFileDTO;
+import com.example.app.users.UserDTO;
 import com.example.app.util.Pager;
 
 import jakarta.validation.Valid;
@@ -56,24 +59,26 @@ public class NoticeController {
 	}
 	
 	@PostMapping("add")
-	public String add(@ModelAttribute("dto") @Valid NoticeDTO noticeDTO, BindingResult bindingResult, MultipartFile[] attach, Model model) throws Exception {
+	public String add(@ModelAttribute("dto") @Valid NoticeDTO noticeDTO, Authentication authentication, BindingResult bindingResult, MultipartFile[] attach, Model model) throws Exception {
 		if (bindingResult.hasErrors()) {
 			return "board/add";
 		}
 		
+		noticeDTO.setBoardWriter(authentication.getName());
+		
 		int result = noticeService.add(noticeDTO, attach);
 		
-//		String msg = "등록 실패";
-//		String path = "./list";
-//		if (result > 0) {
-//			msg = "등록 성공";
-//		}
-//		
-//		model.addAttribute("path", path);
-//		model.addAttribute("msg", msg);
+		String msg = "등록 실패";
+		String path = "./list";
+		if (result > 0) {
+			msg = "등록 성공";
+		}
 		
-		//return "/commons/result";
-		return "redirect:./list";
+		model.addAttribute("path", path);
+		model.addAttribute("msg", msg);
+		
+		return "commons/result";
+//		return "redirect:./list";
 	}
 	
 	@GetMapping("detail")

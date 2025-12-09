@@ -90,4 +90,26 @@ public class UserService {
 		
 	}
 	
+	public int update(UserDTO userDTO, MultipartFile profile) throws Exception {
+		int result = userDAO.update(userDTO);
+		
+		if (profile == null) {
+			return result;
+		}
+		
+		File file = new File(uploadPath);
+		String fileName = fileManager.fileSave(file, profile);
+					
+		UserFileDTO usersFileDTO = new UserFileDTO();
+		usersFileDTO.setFileName(fileName);
+		usersFileDTO.setFileOrigin(profile.getOriginalFilename());
+		usersFileDTO.setUsername(userDTO.getUsername());
+			
+		userDAO.userFileAdd(usersFileDTO);
+		
+		userDAO.roleAdd(userDTO);
+		
+		return result;
+	}
+	
 }

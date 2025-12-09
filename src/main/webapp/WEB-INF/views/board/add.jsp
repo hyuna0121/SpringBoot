@@ -61,7 +61,7 @@
 								  
 								  <div class="form-group">
 								    <label for="writer">Writer</label>
-								    <form:input path="boardWriter" cssClass="form-control" id="writer"/>
+								    <form:input path="boardWriter" cssClass="form-control" id="writer" disabled=""/>
 								  </div>
 								  
 								  <div class="form-group">
