@@ -80,7 +80,7 @@ public class UserController {
 		int result = userService.update(userDTO, profile);
 		
 		String msg = "수정 실패";
-		String path = "users/mypage";
+		String path = "./mypage";
 		if (result > 0) {
 			// DB에서 사용자를 조회해야 함
 //			UsernamePasswordAuthenticationToken to = new UsernamePasswordAuthenticationToken(userDTO, authentication.getCredentials(), authentication.getAuthorities());
