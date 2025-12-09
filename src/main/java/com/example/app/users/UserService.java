@@ -80,10 +80,13 @@ public class UserService {
 		}
 		
 		// 3. id 중복 체크
-		UserDTO checkDTO = userDAO.detail(userDTO);
-		if (checkDTO != null) {
-			check = true;
-			bindingResult.rejectValue("username", "user.username.equal");
+		if (userDTO.getUsername() != null) {
+			UserDTO checkDTO = userDAO.detail(userDTO);
+			
+			if (checkDTO != null) {
+				check = true;
+				bindingResult.rejectValue("username", "user.username.duplication");
+			}
 		}
 		
 		return check;
@@ -91,25 +94,9 @@ public class UserService {
 	}
 	
 	public int update(UserDTO userDTO, MultipartFile profile) throws Exception {
-		int result = userDAO.update(userDTO);
 		
-		if (profile == null) {
-			return result;
-		}
+		return userDAO.update(userDTO);
 		
-		File file = new File(uploadPath);
-		String fileName = fileManager.fileSave(file, profile);
-					
-		UserFileDTO usersFileDTO = new UserFileDTO();
-		usersFileDTO.setFileName(fileName);
-		usersFileDTO.setFileOrigin(profile.getOriginalFilename());
-		usersFileDTO.setUsername(userDTO.getUsername());
-			
-		userDAO.userFileAdd(usersFileDTO);
-		
-		userDAO.roleAdd(userDTO);
-		
-		return result;
 	}
 	
 }

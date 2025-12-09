@@ -8,7 +8,20 @@
 	</insert>
 	
 	<update id="update" parameterType="UserDTO">
-		UPDATE users SET name=#{name}, email=#{email}, phone=#{phone}, birth=#{birth} WHERE username=#{username}
+		UPDATE users 
+		<set>
+			name=#{name},
+			<if test="email != null">
+				email=#{email},
+			</if>
+			<if test="phone != null">
+				phone=#{phone},
+			</if>
+			<if test="birth != null">
+				birth=#{birth}
+			</if>
+		</set> 
+		WHERE username=#{username}
 	</update>
 	
 	<insert id="userFileAdd" parameterType="UserFileDTO">

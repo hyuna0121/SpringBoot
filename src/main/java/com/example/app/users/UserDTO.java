@@ -23,25 +23,26 @@ import lombok.ToString;
 @ToString
 public class UserDTO implements UserDetails {
 
-	@NotBlank
+	@NotBlank(groups = {RegisterGroup.class})
 	private String username;
 	
-	@Pattern(regexp = "^(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,12}$")
+	@NotBlank(groups = {RegisterGroup.class, PasswordGroup.class})
+	//@Pattern(regexp = "^(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,12}$")
 	private String password;
 	
 	private String passwordCheck;
 	
-	@NotBlank
+	@NotBlank(groups = {RegisterGroup.class, UpdateGroup.class})
 	private String name;
 	
-	@Email
-	@NotBlank
+	@Email(groups = {RegisterGroup.class, UpdateGroup.class})
+	@NotBlank(groups = {RegisterGroup.class})
 	private String email;
 	
-	@Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
+	@Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", groups = {RegisterGroup.class, UpdateGroup.class})
 	private String phone;
 	
-	@Past
+	@Past(groups = {RegisterGroup.class, UpdateGroup.class})
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birth;
 	

@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString
 public class BoardDTO extends CommentDTO {
 	
-	@NotBlank
+	@NotBlank(message = "필수입니다")
 	private String boardTitle;
 	private String boardWriter;
 

@@ -64,6 +64,12 @@
 										        </span>
 										        <span class="text">Update</span>
 										    </a>
+			                            	<a href="./change" class="btn btn-primary btn-icon-split mx-1">
+										        <span class="icon text-white-50">
+										            <i class="fas fa-edit"></i>
+										        </span>
+										        <span class="text">비번변경</span>
+										    </a>
 			                            </div>
 			                        </div>
 	                    	</sec:authorize>

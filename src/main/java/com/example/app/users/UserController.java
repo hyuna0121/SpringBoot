@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +39,7 @@ public class UserController {
 	public void register(UserDTO userDTO) throws Exception { }
 	
 	@PostMapping("register")
-	public String register(@Valid UserDTO userDTO, BindingResult bindingResult, MultipartFile profile, Model model) throws Exception {
+	public String register(@Validated(RegisterGroup.class) UserDTO userDTO, BindingResult bindingResult, MultipartFile profile, Model model) throws Exception {
 		if (userService.getError(userDTO, bindingResult)) {
 			
 			return "users/register";
@@ -70,8 +71,8 @@ public class UserController {
 	}
 	
 	@PostMapping("update")
-	public String update(UserDTO userDTO, Authentication authentication, BindingResult bindingResult, MultipartFile profile, Model model) throws Exception {
-		if (userService.getError(userDTO, bindingResult)) {
+	public String update(@Validated(UpdateGroup.class) UserDTO userDTO, Authentication authentication, BindingResult bindingResult, MultipartFile profile, Model model) throws Exception {
+		if (bindingResult.hasErrors()) {
 			return "users/register";
 		}
 		
@@ -91,6 +92,18 @@ public class UserController {
 		model.addAttribute("path", path);
 		
 		return "commons/result";
+	}
+	
+	@GetMapping("change")
+	public void change(UserDTO userDTO) throws Exception { }
+	
+	@PostMapping("change")
+	public String change(@Validated(PasswordGroup.class) UserDTO userDTO, BindingResult bindingResult, String exist) throws Exception {
+		if (userService.getError(userDTO, bindingResult)) {
+			return "users/change";
+		}
+		
+		return "redirect:mypage";
 	}
 	
 }
