@@ -71,6 +71,9 @@
                     	
                     	<sec:authorize access="!isAuthenticated()">
                     		<h1>Login 필요</h1>
+                    		<a href="/oauth2/authorization/kakao">
+                    			<img alt="카카오 로그인" src="/img/kakao_login_medium_narrow.png">
+                    		</a>
                     	</sec:authorize>
                     </div>
                     

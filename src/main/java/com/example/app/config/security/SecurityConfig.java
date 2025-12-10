@@ -93,8 +93,13 @@ public class SecurityConfig {
 				session
 					.invalidSessionUrl("/")
 					.maximumSessions(1)
-					.maxSessionsPreventsLogin(true)
+					.maxSessionsPreventsLogin(false)
 					.expiredUrl("/");
+			})
+			.oauth2Login(t -> {
+				t.userInfoEndpoint(s -> {
+					s.userService(detailsServiceImpl);
+				});
 			})
 			;
 		
