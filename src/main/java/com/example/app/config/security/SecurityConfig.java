@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.example.app.users.UserDetailsServiceImpl;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -22,6 +24,9 @@ public class SecurityConfig {
 	private LogoutSuccess logoutSuccess;
 	@Autowired
 	private Logout logoutHandler;
+	
+	@Autowired
+	private UserDetailsServiceImpl detailsServiceImpl;
 	
 	// 정적 자원들을 Security에서 제외
 	@Bean
@@ -73,8 +78,25 @@ public class SecurityConfig {
 					.addLogoutHandler(logoutHandler)
 					.logoutSuccessHandler(logoutSuccess)
 					.invalidateHttpSession(true)
-					.deleteCookies("JSESSIONID");
-			});
+					.deleteCookies("JSESSIONID", "remember-me");
+			})
+			.rememberMe(remember -> {
+				remember
+					.rememberMeParameter("rememberme") // html의 name값
+					//.tokenValiditySeconds(60)
+					.key("rememberkey")
+					.userDetailsService(detailsServiceImpl) // spring login과정에서 실제로 호출되는 userDetailService를 넣음
+					.authenticationSuccessHandler(loginSuccessHandler)
+					.useSecureCookie(true);
+			})
+			.sessionManagement(session -> {
+				session
+					.invalidSessionUrl("/")
+					.maximumSessions(1)
+					.maxSessionsPreventsLogin(true)
+					.expiredUrl("/");
+			})
+			;
 		
 		return security.build();
 			
