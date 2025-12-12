@@ -24,6 +24,7 @@
         
         	<!-- Main Content -->
             <div id="content">
+            	<h1>REMOTE TEST</h1>
             
             	<!-- Topbar -->
             	<c:import url="/WEB-INF/views/template/topbar.jsp"></c:import>
