@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,8 @@ public class QnaController {
 	@GetMapping("list")
 	public String list(Pager pager, Model model) throws Exception {
 		List<BoardDTO> qnaList = qnaService.list(pager);
+		
+		if (qnaList.size() > 0) throw new NullPointerException();
 		
 		model.addAttribute("list", qnaList);
 		model.addAttribute("pager", pager);
@@ -140,6 +143,22 @@ public class QnaController {
 		model.addAttribute("file", boardFileDTO);
 		
 		return "fileDownView";
+	}
+	
+	// 예외처리 메서드
+	@ExceptionHandler(NullPointerException.class)
+	public String except1(Model model) {
+		return "error/error_page";
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public String except2(Model model) {
+		return "error/error_page";
+	}
+	
+	@ExceptionHandler(Throwable.class)
+	public String except3(Model model) {
+		return "error/error_page";
 	}
 	
 }
