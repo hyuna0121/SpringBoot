@@ -30,7 +30,7 @@
                                 <h1 class="h4 text-gray-900 mb-4">Login</h1>
                             </div>
                 
-                            <form class="user" method="post">
+                            <form class="user" method="post" action="/users/loginProcess">
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" name="username" value="admin"
                                         placeholder="ID" required>

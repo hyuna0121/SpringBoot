@@ -3,13 +3,18 @@ package com.example.app.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.example.app.config.security.jwt.JwtAuthenticationFilter;
+import com.example.app.config.security.jwt.JwtLoginFilter;
+import com.example.app.config.security.jwt.JwtTokenManager;
 import com.example.app.users.UserDetailsServiceImpl;
 
 @Configuration
@@ -27,6 +32,14 @@ public class SecurityConfig {
 	
 	@Autowired
 	private UserDetailsServiceImpl detailsServiceImpl;
+	
+	// ---------------- JWT 추가
+	
+	@Autowired
+	private JwtTokenManager jwtTokenManager;
+	
+	@Autowired
+	private AuthenticationConfiguration authenticationConfiguration;
 	
 	// 정적 자원들을 Security에서 제외
 	@Bean
@@ -59,16 +72,18 @@ public class SecurityConfig {
 			
 			// Login form과 그 외 관련 설정
 			.formLogin((form) -> {
-				form
+				// front가 분리된 경우
+				// form.disable();
+				form.disable();
 					// 로그인폼 jsp 경로로 가는 url과 로그인 처리 url 작성
-					.loginPage("/users/login")
-					.loginProcessingUrl("/users/login") // 로그인을 진행할 Url
+					//.loginPage("/users/login");
+					// .loginProcessingUrl("/users/login") // 로그인을 진행할 Url
 					// .usernameParameter("id")
 					// .passwordParameter("pw") // DB이름과 다를 경우에 사용
 					// .defaultSuccessUrl("/");
 					// .failureUrl("") // 실패할 경우 처리
-					.successHandler(loginSuccessHandler)
-					.failureHandler(loginFailHandler);
+//					.successHandler(loginSuccessHandler)
+//					.failureHandler(loginFailHandler);
 					
 			})
 			.logout((logout) -> {
@@ -78,24 +93,31 @@ public class SecurityConfig {
 					.addLogoutHandler(logoutHandler)
 					// .logoutSuccessHandler(logoutSuccess)
 					.invalidateHttpSession(true)
-					.deleteCookies("JSESSIONID", "remember-me");
+					.deleteCookies("JSESSIONID", "remember-me")
+					.deleteCookies("access-token", "refresh-token");
 			})
-			.rememberMe(remember -> {
-				remember
-					.rememberMeParameter("rememberme") // html의 name값
-					//.tokenValiditySeconds(60)
-					.key("rememberkey")
-					.userDetailsService(detailsServiceImpl) // spring login과정에서 실제로 호출되는 userDetailService를 넣음
-					.authenticationSuccessHandler(loginSuccessHandler)
-					.useSecureCookie(true);
-			})
+//			.rememberMe(remember -> {
+//				remember
+//					.rememberMeParameter("rememberme") // html의 name값
+//					//.tokenValiditySeconds(60)
+//					.key("rememberkey")
+//					.userDetailsService(detailsServiceImpl) // spring login과정에서 실제로 호출되는 userDetailService를 넣음
+//					.authenticationSuccessHandler(loginSuccessHandler)
+//					.useSecureCookie(true);
+//			})
 			.sessionManagement(session -> {
 				session
-					.invalidSessionUrl("/")
-					.maximumSessions(1)
-					.maxSessionsPreventsLogin(false)
-					.expiredUrl("/");
+					.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//					.invalidSessionUrl("/")
+//					.maximumSessions(1)
+//					.maxSessionsPreventsLogin(false)
+//					.expiredUrl("/");
 			})
+			.httpBasic(h -> {
+				h.disable();
+			})
+			.addFilter(new JwtAuthenticationFilter(jwtTokenManager, authenticationConfiguration.getAuthenticationManager()))
+			.addFilter(new JwtLoginFilter(jwtTokenManager, authenticationConfiguration.getAuthenticationManager()))
 			.oauth2Login(t -> {
 				t.userInfoEndpoint(s -> {
 					s.userService(detailsServiceImpl);
