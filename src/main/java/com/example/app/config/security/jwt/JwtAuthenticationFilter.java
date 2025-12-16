@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -45,7 +46,41 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 				Authentication authentication = this.jwtTokenManager.getAuthenticationByToken(token);
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			} catch (Exception e) {
-				e.printStackTrace();
+				// SecurityException || MalformedException || SignatureException : 유효하지 않는 JWT 서명
+				// ExpiredJwtException : 기간이 만료된 Token
+				// UnSupportedJwtException : 지원되지 않는 Token
+				// IllegalArgumentException : 잘못된 Token
+				System.out.println(e.getMessage());
+				
+				if (e instanceof ExpiredJwtException) {
+					// RefreshToken으로 AccessToken 생성
+					// DB에서 조회 또는 저장소에서 가져오기
+					String refresh="";
+					for (Cookie c : cookies) {
+						if (c.getName().equals("refresh-token")) {
+							refresh = c.getValue();
+							break;
+						}
+					}
+					
+					// refresh token을 검증
+					try {
+						Authentication authentication = jwtTokenManager.getAuthenticationByToken(refresh);
+						SecurityContextHolder.getContext().setAuthentication(authentication);
+						
+						// access token 생성
+						String newToken = jwtTokenManager.makeAccessToken(authentication);
+						
+						Cookie cookie = new Cookie("access-token", newToken);
+						cookie.setPath("/");
+						cookie.setMaxAge(60);
+						cookie.setHttpOnly(true);
+						
+						response.addCookie(cookie);
+					} catch (Exception e1) {
+						// 다시 로그인해야하는 경우
+					}
+				}
 			}
 		}
 		
